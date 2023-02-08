@@ -12,8 +12,6 @@ const server = createServer((req, res) => {
     });
 });
 
-server.listen(process.env.PORT);
-
 function handleRequest(res, body) {
     const { action, jwt } = JSON.parse(body);
     res.writeHead(200, {
@@ -25,3 +23,5 @@ function handleRequest(res, body) {
         responseText: action
     }));
 }
+
+server.listen(process.env.PORT);

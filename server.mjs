@@ -1,6 +1,7 @@
 import { createServer } from "http";
 import dotenv from "dotenv";
 dotenv.config();
+import { commandHandler } from "./commands.mjs";
 
 const server = createServer((req, res) => {
     let body = "";
@@ -20,7 +21,7 @@ function handleRequest(res, body) {
         "Access-Control-Allow-Origin": "*"
     });
     res.end(JSON.stringify({
-        responseText: action
+        responseText: commandHandler(action)
     }));
 }
 

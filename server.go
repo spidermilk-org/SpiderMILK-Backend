@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 	"net/http"
+	"encoding/json"
 	"github.com/joho/godotenv"
 )
 
@@ -19,5 +20,11 @@ func requestHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Access-Control-Allow-Methods", "POST")
 	w.Header().Add("Access-Control-Allow-Origin", "*")
 	w.Header().Add("Content-Type", "application/json")
-	w.Write([]byte(`{"responseText": "Hello World"}`))
+
+	decoder := json.NewDecoder(r.Body)
+	var reqBody map[string]interface{}
+	decoder.Decode(&reqBody)
+	action := reqBody["action"].(string)
+	test, _ := json.Marshal(map[string]string{"responseText": commandHandler(action)})
+	w.Write(test)
 }

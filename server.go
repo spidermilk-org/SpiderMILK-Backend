@@ -21,10 +21,8 @@ func requestHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Access-Control-Allow-Origin", "*")
 	w.Header().Add("Content-Type", "application/json")
 
-	decoder := json.NewDecoder(r.Body)
 	var reqBody map[string]interface{}
-	decoder.Decode(&reqBody)
-	action := reqBody["action"].(string)
-	test, _ := json.Marshal(map[string]string{"responseText": commandHandler(action)})
-	w.Write(test)
+	json.NewDecoder(r.Body).Decode(&reqBody)
+	result, _ := json.Marshal(map[string]string{"responseText": commandHandler(reqBody["action"].(string))})
+	w.Write(result)
 }

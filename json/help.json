@@ -1,0 +1,6 @@
+{
+	"helpMsg": "\"clear\" to clear the screen<br>\"exit\" to exit the game<br>\"help\" to print help message",
+	"clear": "\"clear\" to clear the screen",
+	"exit": "\"exit\" to exit the game",
+	"help": "\"help\" to print help message"
+}

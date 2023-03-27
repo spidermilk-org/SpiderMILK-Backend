@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
-
+	"fmt"
 	"github.com/joho/godotenv"
 )
 
@@ -26,7 +26,11 @@ func requestHandler(w http.ResponseWriter, r *http.Request) {
 
 	var reqBody map[string]interface{}
 	json.NewDecoder(r.Body).Decode(&reqBody)
-	result, _ := json.Marshal(map[string]string{"responseText": commandHandler(reqBody["action"].(string))})
+	result, err := json.Marshal(map[string]string{"responseText": commandHandler(reqBody["action"].(string))})
+	if err != nil {
+		fmt.Println("Error marshalling response JSON in requestHandler(): ", err)
+		return
+	}
 	w.Write(result)
 }
 
@@ -36,7 +40,11 @@ func helpHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Access-Control-Allow-Origin", "*")
 	w.Header().Add("Content-Type", "application/json")
 
-	content, _ := ioutil.ReadFile("json/help.json")
+	content, err := ioutil.ReadFile("json/help.json")
+	if(err != nil) {
+		fmt.Println("Error reading help.json in helpHandler(): ", err)
+		return
+	}
 
 	w.Write(content)
 }
